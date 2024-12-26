@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CurrencyToday</title>
+    <link href="css/default.css" rel="stylesheet" />
+</head>
+<body>
+    <table>
+        <tr><td><img src="images/money.png" /></td><td><div id="heading">Heading</div></td></tr>
+        <tr><td><img src="images/stocks.png" /></td><td><div id="rate" onclick="showCurrencyselection()">Current rate</div></td></tr>
+    </table>
+
+    <div id="canvasContainer">
+        
+    </div>
+
+    <div id="infobox"></div>
+    <div id="reloadbutton" onclick="getStockdata()"><img src="images/reload.png" /></div>
+
+    <div id="currencyselection"></div>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/chart.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
