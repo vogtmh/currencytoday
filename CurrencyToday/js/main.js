@@ -50,36 +50,49 @@ function timeConverter(UNIX_timestamp) {
 }
 
 function drawChart2() {
-    let resetCanvas = `<canvas id="stockChart" height="300" width="400"></canvas>`;
-    $("#canvasContainer").html(resetCanvas);
-    var ctx = document.getElementById('stockChart');
+    try {
+        let resetCanvas = `<canvas id="stockChart" height="300" width="400"></canvas>`;
+        $("#canvasContainer").html(resetCanvas);
+    }
+    catch (e) {
+        let message = e.message;
+        $("#infobox").html("Error while resetting canvas: " + message);
+    }
 
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'close price in Euro',
-                data: datapoints,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1.0)',
-                borderWidth: 2,
-                pointRadius: 2,
-            }]
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: false
-                    }
+    try {
+        var ctx = document.getElementById('stockChart');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'close price in Euro',
+                    data: datapoints,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1.0)',
+                    borderWidth: 2,
+                    pointRadius: 2,
                 }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                }
             }
-        }
-    });
+        });
+    }
+    catch (e) {
+        let message = e.message;
+        $("#infobox").html("Error while drawing chart: " + message);
+    }
 }
 
 function getStockdata() {
@@ -95,40 +108,52 @@ function getStockdata() {
         dataType: 'json',
         success(response) {
             stockdata = response;
+            var metadate, seriesZero, rate;
             if (stockdata.hasOwnProperty("base")) {
-                let metadate = stockdata.end_date;
-                var rate;
-                timeseries = stockdata.rates;
-                timeitems = Object.keys(timeseries).length
-                let seriesZero = timeseries[Object.keys(timeseries)[0]]
-                rateitems = Object.keys(seriesZero).length
-                console.log(stockdata);
+                try {
+                    metadate = stockdata.end_date;
+                    timeseries = stockdata.rates;
+                    timeitems = Object.keys(timeseries).length
+                    seriesZero = timeseries[Object.keys(timeseries)[0]]
+                    rateitems = Object.keys(seriesZero).length
+                    console.log(stockdata);
 
-                // get available currencies
-                for (let i = 0; i < rateitems; i++) {
-                    let currency = Object.keys(seriesZero)[i]
-                    currencies.push(currency);
+                    // get available currencies
+                    for (let i = 0; i < rateitems; i++) {
+                        let currency = Object.keys(seriesZero)[i]
+                        currencies.push(currency);
+                    }
+
+                    // get series for selected currency
+                    for (let i = 0; i < timeitems; i++) {
+                        let label = Object.keys(timeseries)[i]
+                        let alldata = timeseries[Object.keys(timeseries)[i]]
+                        let datapoint = alldata[selectedCurrency]
+                        rate = datapoint;
+                        labels.push(label);
+                        datapoints.push(datapoint);
+                    }
                 }
-
-                // get series for selected currency
-                for (let i = 0; i < timeitems; i++) {
-                    let label = Object.keys(timeseries)[i]
-                    let alldata = timeseries[Object.keys(timeseries)[i]]
-                    let datapoint = alldata[selectedCurrency]
-                    rate = datapoint;
-                    labels.push(label);
-                    datapoints.push(datapoint);
+                catch (e) {
+                    let message = e.message;
+                    $("#infobox").html("Error while refreshing stats: " + message);
                 }
                 drawChart2();
 
-                $("#heading").html("1 EUR")
-                $("#rate").html(rate + " " + selectedCurrency)
+                try {
+                    $("#heading").html("1 EUR")
+                    $("#rate").html(rate + " " + selectedCurrency)
 
-                if (appString != "") {
-                    $("#infobox").html(appString + " - rate: " + metadate)
+                    if (appString != "") {
+                        $("#infobox").html(appString + " - rate: " + metadate)
+                    }
+                    else {
+                        $("#infobox").html("rate: " + metadate)
+                    }
                 }
-                else {
-                    $("#infobox").html("rate: " + metadate)
+                catch (e) {
+                    let message = e.message;
+                    $("#infobox").html("Error while refreshing stats: " + message);
                 }
             }
             else {
