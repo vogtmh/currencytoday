@@ -84,6 +84,7 @@ function drawChart2() {
                     borderColor: 'rgba(54, 162, 235, 1.0)',
                     borderWidth: 2,
                     pointRadius: 2,
+                    pointHitRadius: 5,
                 }]
             },
             options: {
