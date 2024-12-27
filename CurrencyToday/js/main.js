@@ -1,5 +1,6 @@
 ﻿const url = 'https://api.frankfurter.dev/v1/'
 
+var selectedBase;
 var selectedCurrency;
 
 var appVersion;
@@ -14,6 +15,7 @@ var latest;
 var latest_close;
 
 var currencies = [];
+var bases = [];
 var labels = [];
 var datapoints = [];
 
@@ -24,8 +26,17 @@ const daysAgo = n => {
 };
 
 function loadSettings() {
+    if (localStorage.getItem("base") === null) {
+        console.log("Base does not exist in localstorage. Creating ..");
+        localStorage.base = "EUR";
+        selectedBase = localStorage.base;
+    } else {
+        selectedBase = localStorage.base;
+        console.log("Base from localstorage: " + selectedBase);
+    }
+
     if (localStorage.getItem("currency") === null) {
-        console.log("Item does not exist in localstorage. Creating ..");
+        console.log("Currency does not exist in localstorage. Creating ..");
         localStorage.currency = "THB";
         selectedCurrency = localStorage.currency;
     } else {
@@ -98,7 +109,7 @@ function drawChart2() {
 function getStockdata() {
     var start_date = timeConverter(daysAgo(60));
     var end_date = timeConverter(Date.now());
-    let query = url + start_date + ".." + end_date;
+    let query = url + start_date + ".." + end_date + "?base=" + selectedBase;
     labels = [];
     datapoints = [];
 
@@ -117,12 +128,18 @@ function getStockdata() {
                     seriesZero = timeseries[Object.keys(timeseries)[0]]
                     rateitems = Object.keys(seriesZero).length
                     console.log(stockdata);
+                    currencies = [];
+                    bases = [];
 
                     // get available currencies
                     for (let i = 0; i < rateitems; i++) {
                         let currency = Object.keys(seriesZero)[i]
                         currencies.push(currency);
                     }
+                    bases = currencies.slice();
+                    let base = stockdata.base;
+                    bases.push(base)
+                    bases.sort()
 
                     // get series for selected currency
                     for (let i = 0; i < timeitems; i++) {
@@ -141,7 +158,7 @@ function getStockdata() {
                 drawChart2();
 
                 try {
-                    $("#heading").html("1 EUR")
+                    $("#heading").html("1 " + selectedBase)
                     $("#rate").html(rate + " " + selectedCurrency)
 
                     if (appString != "") {
@@ -170,19 +187,41 @@ function getStockdata() {
     });
 }
 
-function showCurrencyselection() {
+function showCurrencyselection(mode) {
     var html = '';
-    for (let i = 0; i < rateitems; i++) {
-        let currency = currencies[i]
-        if (currency == selectedCurrency) {
-            html += `<div class="currencybutton" style="background-color: Highlight" onclick="setCurrency('` + currency + `')">` + currency + '</div>';
-        }
-        else {
-            html += `<div class="currencybutton" onclick="setCurrency('` + currency + `')">` + currency + '</div>';
+
+    if (mode == "base") {
+        for (let i = 0; i < (rateitems + 1); i++) {
+            let currency = bases[i]
+            if (currency == selectedBase) {
+                html += `<div class="currencybutton" style="background-color: Highlight" onclick="setBase('` + currency + `')">` + currency + '</div>';
+            }
+            else {
+                html += `<div class="currencybutton" onclick="setBase('` + currency + `')">` + currency + '</div>';
+            }
         }
     }
+    if (mode == "target") {
+        for (let i = 0; i < rateitems; i++) {
+            let currency = currencies[i]
+            if (currency == selectedCurrency) {
+                html += `<div class="currencybutton" style="background-color: Highlight" onclick="setCurrency('` + currency + `')">` + currency + '</div>';
+            }
+            else {
+                html += `<div class="currencybutton" onclick="setCurrency('` + currency + `')">` + currency + '</div>';
+            }
+        }
+    }
+    
     $("#currencyselection").html(html);
     $("#currencyselection").show();
+}
+
+function setBase(currency) {
+    $("#currencyselection").hide();
+    localStorage.base = currency;
+    selectedBase = localStorage.base;
+    getStockdata();
 }
 
 function setCurrency(currency) {
