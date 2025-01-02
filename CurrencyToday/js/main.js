@@ -14,6 +14,10 @@ var rateitems;
 var latest;
 var latest_close;
 
+var sourceCache;
+var targetCache;
+var timestampCache;
+
 var currencies = [];
 var bases = [];
 var labels = [];
@@ -42,6 +46,43 @@ function loadSettings() {
     } else {
         selectedCurrency = localStorage.currency;
         console.log("Currency from localstorage: " + selectedCurrency);
+    }
+
+    if (localStorage.getItem("sourceCache") === null) {
+        console.log("sourceCache does not exist in localstorage. Creating ..");
+        localStorage.sourceCache = "1";
+        sourceCache = localStorage.sourceCache;
+    } else {
+        sourceCache = localStorage.sourceCache;
+        console.log("sourceCache from localstorage: " + sourceCache);
+    }
+
+    if (localStorage.getItem("targetCache") === null) {
+        console.log("targetCache does not exist in localstorage. Creating ..");
+        localStorage.targetCache = "0.0";
+        targetCache = localStorage.targetCache;
+    } else {
+        targetCache = localStorage.targetCache;
+        console.log("targetCache from localstorage: " + targetCache);
+    }
+
+    if (localStorage.getItem("timestampCache") === null) {
+        console.log("timestampCache does not exist in localstorage. Creating ..");
+        localStorage.timestampCache = "n/a";
+        timestampCache = localStorage.timestampCache;
+    } else {
+        timestampCache = localStorage.timestampCache;
+        console.log("timestampCache from localstorage: " + timestampCache);
+    }
+
+    $("#heading").html(sourceCache + " " + selectedBase)
+    $("#rate").html(targetCache + "<br/>" + selectedCurrency)
+
+    if (appString != "") {
+        $("#infobox").html(appString + " - rate: " + timestampCache + " (cache)")
+    }
+    else {
+        $("#infobox").html("rate: " + timestampCache + " (cache)")
     }
 }
 
@@ -111,6 +152,7 @@ function getStockdata() {
     var start_date = timeConverter(daysAgo(60));
     var end_date = timeConverter(Date.now());
     let query = url + start_date + ".." + end_date + "?base=" + selectedBase;
+    console.log("checking for exchange rate ..")
     labels = [];
     datapoints = [];
 
@@ -159,8 +201,8 @@ function getStockdata() {
                 drawChart2();
 
                 try {
-                    $("#heading").html("1 " + selectedBase)
-                    $("#rate").html(rate + " " + selectedCurrency)
+                    $("#heading").html(sourceCache + " " + selectedBase)
+                    $("#rate").html(rate + "<br/>" + selectedCurrency)
 
                     if (appString != "") {
                         $("#infobox").html(appString + " - rate: " + metadate)
@@ -168,6 +210,11 @@ function getStockdata() {
                     else {
                         $("#infobox").html("rate: " + metadate)
                     }
+
+                    targetCache = rate;
+                    localStorage.targetCache = rate;
+                    timestampCache = metadate;
+                    localStorage.timestampCache = metadate;
                 }
                 catch (e) {
                     let message = e.message;
@@ -218,6 +265,16 @@ function showCurrencyselection(mode) {
     $("#currencyselection").show();
 }
 
+function switchCurrencies() {
+    localStorage.base = selectedCurrency;
+    localStorage.currency = selectedBase;
+
+    selectedBase = localStorage.base;
+    selectedCurrency = localStorage.currency;
+
+    getStockdata();
+}
+
 function setBase(currency) {
     $("#currencyselection").hide();
     localStorage.base = currency;
@@ -232,6 +289,21 @@ function setCurrency(currency) {
     getStockdata();
 }
 
+function showOnlinestate(state) {
+    if (state == "online") {
+        getStockdata();
+        setInterval(getStockdata, 3600000); // check once per hour
+    }
+    else {
+        if (appString != "") {
+            $("#infobox").html(appString + " - rate: " + timestampCache + " (offline)")
+        }
+        else {
+            $("#infobox").html("rate: " + timestampCache + " (offline)")
+        }
+    }
+}
+
 $(document).ready(function () {
     try {
         appVersion = Windows.ApplicationModel.Package.current.id.version;
@@ -244,10 +316,11 @@ $(document).ready(function () {
         appString = '';
     }
 
+    window.addEventListener('online', () => showOnlinestate("online"));
+    window.addEventListener('offline', () => showOnlinestate("offline"));
+
     document.onselectstart = new Function("return false")
 
-    loadSettings()
+    loadSettings();
     getStockdata();
 });
-
-setInterval(getStockdata, 3600000); // check once per hour

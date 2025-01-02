@@ -9,28 +9,41 @@
 
 table {
     border-spacing: 30px;
-    width: 80%;
+    width: 90%;
     margin-left: 10%;
 }
 
-    table img {
-        width: 60px;
-    }
+table img {
+    width: 60px;
+}
+
+#logo {
+    width: 100%;
+}
 
 #heading {
-    margin: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
     font-weight: bold;
     font-size: 24px;
+    cursor: pointer;
 }
 
 #rate {
-    margin: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
     font-size: 24px;
+    cursor: pointer;
 }
 
-#pile {
-    margin: 10px;
-    font-size: 24px;
+#switch {
+    height:2em; 
+    width:2em;
+    cursor: pointer;
+}
+
+#canvasContainer {
+    color: #fff;
 }
 
 #stockChart {

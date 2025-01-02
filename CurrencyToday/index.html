@@ -19,8 +19,9 @@
 </head>
 <body>
     <table>
-        <tr><td><img src="images/money.png" /></td><td><div id="heading" onclick="showCurrencyselection('base')">BaseCurrency</div></td></tr>
-        <tr><td><img src="images/stocks.png" /></td><td><div id="rate" onclick="showCurrencyselection('target')">TargetCurrency</div></td></tr>
+        <tr><td rowspan="3" style="width:30%;"><img src="images/money.png" id="logo" /></td><td><div id="heading" onclick="showCurrencyselection('base')">source</div></td></tr>
+        <tr><td><img src="images/switch.png" id="switch" onclick="switchCurrencies()" /></td></tr>
+        <tr><td><div id="rate" onclick="showCurrencyselection('target')">target</div></td></tr>
     </table>
 
     <div id="canvasContainer">
