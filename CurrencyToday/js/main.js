@@ -152,6 +152,7 @@ function getStockdata() {
     var start_date = timeConverter(daysAgo(60));
     var end_date = timeConverter(Date.now());
     let query = url + start_date + ".." + end_date + "?base=" + selectedBase;
+    $("#reloadbutton").html('<img src="images/reloading.gif" />');
     console.log("checking for exchange rate ..")
     labels = [];
     datapoints = [];
@@ -161,6 +162,7 @@ function getStockdata() {
         type: 'GET',
         dataType: 'json',
         success(response) {
+            $("#reloadbutton").html('<img src="images/reload0.png" />');
             stockdata = response;
             var metadate, seriesZero, rate;
             if (stockdata.hasOwnProperty("base")) {
@@ -231,6 +233,7 @@ function getStockdata() {
         },
         error(jqXHR, status, errorThrown) {
             console.log('failed to fetch ' + query)
+            $("#reloadbutton").html('<img src="images/reload0.png" />');
         },
     });
 }

@@ -83,6 +83,8 @@
     <Content Include="favicons\web-app-manifest-192x192.png" />
     <Content Include="favicons\web-app-manifest-512x512.png" />
     <Content Include="images\atm.png" />
+    <Content Include="images\reload0.png" />
+    <Content Include="images\reloading.gif" />
     <Content Include="images\LargeTile.scale-100.png" />
     <Content Include="images\LargeTile.scale-125.png" />
     <Content Include="images\LargeTile.scale-150.png" />
