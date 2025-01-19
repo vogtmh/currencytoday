@@ -10,10 +10,10 @@ $target = 'THB';
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
   if (isset($_GET['source'])) {
-    $source = htmlspecialchars($_GET['$source'], ENT_QUOTES);
+    $source = htmlspecialchars($_GET['source'], ENT_QUOTES);
   }
   if (isset($_GET['target'])) {
-    $target = htmlspecialchars($_GET['$target'], ENT_QUOTES);
+    $target = htmlspecialchars($_GET['target'], ENT_QUOTES);
   }
 }
 

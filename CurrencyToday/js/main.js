@@ -238,6 +238,7 @@ function getStockdata() {
             $("#reloadbutton").html('<img src="images/reload0.png" />');
         },
     });
+    updateTileUrl();
 }
 
 function showCurrencyselection(mode) {
@@ -309,24 +310,37 @@ function showOnlinestate(state) {
     }
 }
 
-function updateTileUrl() {
-    let tileUrl = "https://int.mavodev.de/currencytoday/rest/tile?";
-    tileUrl += "source=" + selectedBase + "&"
-    tileUrl += "target=" + selectedCurrency;
-    updateTile(tileUrl);
+function updateTileWithDynamicXml(xmlSource) {
+    const tileXml = new Windows.Data.Xml.Dom.XmlDocument();
+    tileXml.loadXml(xmlSource);
+
+    const tileNotification = new Windows.UI.Notifications.TileNotification(tileXml);
+    const tileUpdater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
+
+    tileUpdater.clear();
+    tileUpdater.update(tileNotification);
 }
 
-function updateTile(imageUri) {
-    if (isWindows == "true") {
-        const tileXml = new Windows.Data.Xml.Dom.XmlDocument();
-        tileXml.loadXml(tileTemplateXml.replace("{imageUri}", imageUri));
-
-        const tileNotification = new Windows.UI.Notifications.TileNotification(tileXml);
-        const tileUpdater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
-
-        //tileUpdater.enableNotificationQueue(true); // optional to enable multiple tiles
-        tileUpdater.update(tileNotification);
+function updateTileUrl() {
+    if (isWindows == true) {
+        let tileUrl = "https://int.mavodev.de/currencytoday/rest/tile?";
+        tileUrl += "source=" + selectedBase + "&"
+        tileUrl += "target=" + selectedCurrency;
+        console.log("new tileUrl: " + tileUrl);
+        fetchXml(tileUrl);
     }
+}
+
+function fetchXml(url) {
+    const httpClient = new Windows.Web.Http.HttpClient();
+    httpClient.getStringAsync(new Windows.Foundation.Uri(url)).done(
+        function (xmlString) {
+            updateTileWithDynamicXml(xmlString);
+        },
+        function (error) {
+            console.log("Failed to fetch XML: " + error);
+        }
+    );
 }
 
 $(document).ready(function () {
@@ -349,5 +363,4 @@ $(document).ready(function () {
 
     loadSettings();
     getStockdata();
-    updateTileUrl();
 });
