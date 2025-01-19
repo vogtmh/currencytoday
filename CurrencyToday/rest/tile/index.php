@@ -22,6 +22,12 @@ $url = "https://api.frankfurter.dev/v1/latest?base=${source}";
 $get_json = callAPI('GET', $url, false);
 $get_data = json_decode($get_json, true);
 $targetrate = $get_data["rates"][$target];
+
+# switch for debugging purposes, has to be removed later
+if ($target == "TRY") {
+	$targetrate = "11elf";
+}
+
 $date = $get_data["date"];
 
 $xw = xmlwriter_open_memory();
