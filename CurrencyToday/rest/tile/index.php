@@ -24,7 +24,7 @@ $get_data = json_decode($get_json, true);
 $targetrate = $get_data["rates"][$target];
 
 # switch for debugging purposes, has to be removed later
-if ($target == "TRY") {
+if ($target == "TST") {
 	$targetrate = "11elf";
 }
 
