@@ -34,43 +34,35 @@ xmlwriter_start_element($xw, 'tile');
         xmlwriter_text($xw, 'TileMedium');
       xmlwriter_end_attribute($xw);
 
-      xmlwriter_start_element($xw, 'group');
+      xmlwriter_start_element($xw, 'text');
+		xmlwriter_start_attribute($xw, 'hint-weight');
+		  xmlwriter_text($xw, "body");
+        xmlwriter_end_attribute($xw);
+		xmlwriter_start_attribute($xw, 'hint-wrap');
+		  xmlwriter_text($xw, "true");
+        xmlwriter_end_attribute($xw);
+        xmlwriter_text($xw, $source);
+      xmlwriter_end_element($xw);
 
-        xmlwriter_start_element($xw, 'subgroup');
-          xmlwriter_start_attribute($xw, 'hint-weight');
-            xmlwriter_text($xw, "1");
-          xmlwriter_end_attribute($xw);
-          xmlwriter_start_element($xw, 'text');
-            xmlwriter_start_attribute($xw, 'hint-align');
-              xmlwriter_text($xw, "center");
-            xmlwriter_end_attribute($xw);
-            xmlwriter_text($xw, $source);
-          xmlwriter_end_element($xw);
-          xmlwriter_start_element($xw, 'image');
-            xmlwriter_start_attribute($xw, 'src');
-              xmlwriter_text($xw, "https://daikinboard.mavodev.de/images/${source_image}");
-            xmlwriter_end_attribute($xw);
-          xmlwriter_end_element($xw);
-        xmlwriter_end_element($xw);
+	  xmlwriter_start_element($xw, 'text');
+		xmlwriter_start_attribute($xw, 'hint-weight');
+		  xmlwriter_text($xw, "body");
+        xmlwriter_end_attribute($xw);
+		xmlwriter_start_attribute($xw, 'hint-wrap');
+		  xmlwriter_text($xw, "true");
+        xmlwriter_end_attribute($xw);
+        xmlwriter_text($xw, $target);
+      xmlwriter_end_element($xw);
 
-        xmlwriter_start_element($xw, 'subgroup');
-          xmlwriter_start_attribute($xw, 'hint-weight');
-            xmlwriter_text($xw, "1");
-          xmlwriter_end_attribute($xw);
-          xmlwriter_start_element($xw, 'text');
-            xmlwriter_start_attribute($xw, 'hint-align');
-              xmlwriter_text($xw, "center");
-            xmlwriter_end_attribute($xw);
-            xmlwriter_text($xw, $target);
-          xmlwriter_end_element($xw);
-          xmlwriter_start_element($xw, 'image');
-            xmlwriter_start_attribute($xw, 'src');
-              xmlwriter_text($xw, "https://daikinboard.mavodev.de/images/${target_image}");
-            xmlwriter_end_attribute($xw);
-          xmlwriter_end_element($xw);
-        xmlwriter_end_element($xw);
-
-      xmlwriter_end_element($xw); // group
+	  xmlwriter_start_element($xw, 'text');
+		xmlwriter_start_attribute($xw, 'hint-weight');
+		  xmlwriter_text($xw, "caption");
+        xmlwriter_end_attribute($xw);
+		xmlwriter_start_attribute($xw, 'hint-wrap');
+		  xmlwriter_text($xw, "true");
+        xmlwriter_end_attribute($xw);
+        xmlwriter_text($xw, "19.01.2025");
+      xmlwriter_end_element($xw);
       
     xmlwriter_end_element($xw); // TileMedium
 
@@ -79,43 +71,35 @@ xmlwriter_start_element($xw, 'tile');
         xmlwriter_text($xw, 'TileWide');
       xmlwriter_end_attribute($xw);
 
-      xmlwriter_start_element($xw, 'group');
+      xmlwriter_start_element($xw, 'text');
+		xmlwriter_start_attribute($xw, 'hint-weight');
+		  xmlwriter_text($xw, "body");
+        xmlwriter_end_attribute($xw);
+		xmlwriter_start_attribute($xw, 'hint-wrap');
+		  xmlwriter_text($xw, "true");
+        xmlwriter_end_attribute($xw);
+        xmlwriter_text($xw, $source);
+      xmlwriter_end_element($xw);
 
-        xmlwriter_start_element($xw, 'subgroup');
-          xmlwriter_start_attribute($xw, 'hint-weight');
-              xmlwriter_text($xw, "1");
-          xmlwriter_end_attribute($xw);
-          xmlwriter_start_element($xw, 'text');
-            xmlwriter_start_attribute($xw, 'hint-align');
-              xmlwriter_text($xw, "center");
-            xmlwriter_end_attribute($xw);
-            xmlwriter_text($xw, $source);
-          xmlwriter_end_element($xw);
-          xmlwriter_start_element($xw, 'image');
-            xmlwriter_start_attribute($xw, 'src');
-              xmlwriter_text($xw, "https://daikinboard.mavodev.de/images/${source_image}");
-            xmlwriter_end_attribute($xw);
-          xmlwriter_end_element($xw);
-          xmlwriter_end_element($xw);
+	  xmlwriter_start_element($xw, 'text');
+		xmlwriter_start_attribute($xw, 'hint-weight');
+		  xmlwriter_text($xw, "body");
+        xmlwriter_end_attribute($xw);
+		xmlwriter_start_attribute($xw, 'hint-wrap');
+		  xmlwriter_text($xw, "true");
+        xmlwriter_end_attribute($xw);
+        xmlwriter_text($xw, $target);
+      xmlwriter_end_element($xw);
 
-        xmlwriter_start_element($xw, 'subgroup');
-          xmlwriter_start_attribute($xw, 'hint-weight');
-            xmlwriter_text($xw, "1");
-          xmlwriter_end_attribute($xw);
-          xmlwriter_start_element($xw, 'text');
-            xmlwriter_start_attribute($xw, 'hint-align');
-              xmlwriter_text($xw, "center");
-            xmlwriter_end_attribute($xw);
-            xmlwriter_text($xw, $target);
-          xmlwriter_end_element($xw);
-          xmlwriter_start_element($xw, 'image');
-            xmlwriter_start_attribute($xw, 'src');
-              xmlwriter_text($xw, "https://daikinboard.mavodev.de/images/${target_image}");
-            xmlwriter_end_attribute($xw);
-          xmlwriter_end_element($xw);
-        xmlwriter_end_element($xw);
-
-      xmlwriter_end_element($xw); // group
+	  xmlwriter_start_element($xw, 'text');
+		xmlwriter_start_attribute($xw, 'hint-weight');
+		  xmlwriter_text($xw, "caption");
+        xmlwriter_end_attribute($xw);
+		xmlwriter_start_attribute($xw, 'hint-wrap');
+		  xmlwriter_text($xw, "true");
+        xmlwriter_end_attribute($xw);
+        xmlwriter_text($xw, "19.01.2025");
+      xmlwriter_end_element($xw);
       
     xmlwriter_end_element($xw); // TileWide
 
@@ -124,37 +108,35 @@ xmlwriter_start_element($xw, 'tile');
         xmlwriter_text($xw, 'TileLarge');
       xmlwriter_end_attribute($xw);
 
-      xmlwriter_start_element($xw, 'group');
+      xmlwriter_start_element($xw, 'text');
+		xmlwriter_start_attribute($xw, 'hint-weight');
+		  xmlwriter_text($xw, "body");
+        xmlwriter_end_attribute($xw);
+		xmlwriter_start_attribute($xw, 'hint-wrap');
+		  xmlwriter_text($xw, "true");
+        xmlwriter_end_attribute($xw);
+        xmlwriter_text($xw, $source);
+      xmlwriter_end_element($xw);
 
-        xmlwriter_start_element($xw, 'subgroup');
-          xmlwriter_start_element($xw, 'text');
-            xmlwriter_start_attribute($xw, 'hint-align');
-              xmlwriter_text($xw, "center");
-            xmlwriter_end_attribute($xw);
-            xmlwriter_text($xw, $source);
-          xmlwriter_end_element($xw);
-          xmlwriter_start_element($xw, 'image');
-            xmlwriter_start_attribute($xw, 'src');
-              xmlwriter_text($xw, "https://daikinboard.mavodev.de/images/${source_image}");
-            xmlwriter_end_attribute($xw);
-          xmlwriter_end_element($xw);
-          xmlwriter_end_element($xw);
+	  xmlwriter_start_element($xw, 'text');
+		xmlwriter_start_attribute($xw, 'hint-weight');
+		  xmlwriter_text($xw, "body");
+        xmlwriter_end_attribute($xw);
+		xmlwriter_start_attribute($xw, 'hint-wrap');
+		  xmlwriter_text($xw, "true");
+        xmlwriter_end_attribute($xw);
+        xmlwriter_text($xw, $target);
+      xmlwriter_end_element($xw);
 
-        xmlwriter_start_element($xw, 'subgroup');
-          xmlwriter_start_element($xw, 'text');
-            xmlwriter_start_attribute($xw, 'hint-align');
-              xmlwriter_text($xw, "center");
-            xmlwriter_end_attribute($xw);
-            xmlwriter_text($xw, $target);
-          xmlwriter_end_element($xw);
-          xmlwriter_start_element($xw, 'image');
-            xmlwriter_start_attribute($xw, 'src');
-              xmlwriter_text($xw, "https://daikinboard.mavodev.de/images/${target_image}");
-            xmlwriter_end_attribute($xw);
-          xmlwriter_end_element($xw);
-        xmlwriter_end_element($xw);
-
-      xmlwriter_end_element($xw); // group
+	  xmlwriter_start_element($xw, 'text');
+		xmlwriter_start_attribute($xw, 'hint-weight');
+		  xmlwriter_text($xw, "caption");
+        xmlwriter_end_attribute($xw);
+		xmlwriter_start_attribute($xw, 'hint-wrap');
+		  xmlwriter_text($xw, "true");
+        xmlwriter_end_attribute($xw);
+        xmlwriter_text($xw, "19.01.2025");
+      xmlwriter_end_element($xw);
       
     xmlwriter_end_element($xw); // TileLarge
 

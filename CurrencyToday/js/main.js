@@ -335,7 +335,38 @@ function fetchXml(url) {
     const httpClient = new Windows.Web.Http.HttpClient();
     httpClient.getStringAsync(new Windows.Foundation.Uri(url)).done(
         function (xmlString) {
-            updateTileWithDynamicXml(xmlString);
+            //updateTileWithDynamicXml(xmlString);
+            const dynamicXml = `
+                <tile>
+                    <visual>
+                        <binding template="TileMedium">
+                            <text>Dynamic XML Update</text>
+                        </binding>
+                        <binding template="TileWide">
+                            <text>Wide Tile Dynamic Content</text>
+                        </binding>
+                    </visual>
+                </tile>
+            `;
+
+            const newXml = `
+            <tile>
+                <visual>
+                    <binding template="TileMedium">
+                        <text hint-style="body" hint-wrap="true">1 EUR</text>
+                        <text hint-style="body" hint-wrap="true">35.492 THB</text>
+                        <text hint-style="caption" hint-wrap="true">19.01.2025</text>
+                    </binding>
+                    <binding template="TileWide">
+                        <text hint-style="body" hint-wrap="true">1 EUR</text>
+                        <text hint-style="body" hint-wrap="true">35.492 THB</text>
+                        <text hint-style="caption" hint-wrap="true">19.01.2025</text>
+                    </binding>
+                </visual>
+            </tile>
+            `
+
+            updateTileWithDynamicXml(newXml);
         },
         function (error) {
             console.log("Failed to fetch XML: " + error);
