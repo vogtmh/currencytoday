@@ -321,12 +321,28 @@ function updateTileWithDynamicXml(xmlSource) {
     tileUpdater.update(tileNotification);
 }
 
+function scheduleTileUpdate(uri, startTime) {
+    const tileUpdater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
+
+    const futureTime = startTime || new Date(Date.now() + 60000); // Default to 1 minute from now
+    const schedule = new Windows.UI.Notifications.ScheduledTileNotification(
+        new Windows.Foundation.Uri(uri),
+        futureTime
+    );
+
+    // Optionally, set an expiration time
+    schedule.expirationTime = new Date(futureTime.getTime() + 3600000); // 1 hour
+
+    tileUpdater.addToSchedule(schedule);
+}
+
 function updateTileUrl() {
     if (isWindows == true) {
         let tileUrl = "https://int.mavodev.de/currencytoday/rest/tile?";
         tileUrl += "source=" + selectedBase + "&"
         tileUrl += "target=" + selectedCurrency;
         console.log("new tileUrl: " + tileUrl);
+        scheduleTileUpdate(tileUrl);
         fetchXml(tileUrl);
     }
 }

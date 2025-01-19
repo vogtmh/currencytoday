@@ -4,7 +4,7 @@
     <AppxPackageIsForStore>False</AppxPackageIsForStore>
     <AppxShowAllApps>False</AppxShowAllApps>
     <AppxBuildConfigurationSelection>neutral</AppxBuildConfigurationSelection>
-    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <PackageOptionalProjectsInIdeBuilds>True</PackageOptionalProjectsInIdeBuilds>
     <Source>C:\Users\mavo\Downloads\Money-Transfer-256.png</Source>
     <SmallTileSource>C:\Users\mavo\Downloads\Money-Transfer-256.png</SmallTileSource>
     <MediumTileSource>C:\Users\mavo\Downloads\Money-Transfer-256.png</MediumTileSource>
