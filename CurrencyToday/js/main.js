@@ -321,19 +321,24 @@ function updateTileWithDynamicXml(xmlSource) {
     tileUpdater.update(tileNotification);
 }
 
-function scheduleTileUpdate(uri, startTime) {
-    const tileUpdater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
+function scheduleTileUpdate(newUrl) {
+    try {
+        const tileUpdater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
 
-    const futureTime = startTime || new Date(Date.now() + 60000); // Default to 1 minute from now
-    const schedule = new Windows.UI.Notifications.ScheduledTileNotification(
-        new Windows.Foundation.Uri(uri),
-        futureTime
-    );
+        const futureTime = new Date(Date.now() + 60000); // Default to 1 minute from now
+        const schedule = new Windows.UI.Notifications.ScheduledTileNotification(
+            new Windows.Foundation.Uri(newUrl),
+            futureTime
+        );
 
-    // Optionally, set an expiration time
-    schedule.expirationTime = new Date(futureTime.getTime() + 3600000); // 1 hour
+        // Optionally, set an expiration time
+        schedule.expirationTime = new Date(futureTime.getTime() + 900000); // 15 minutes
 
-    tileUpdater.addToSchedule(schedule);
+        tileUpdater.addToSchedule(schedule);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function updateTileUrl() {
