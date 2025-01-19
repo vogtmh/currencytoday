@@ -6,6 +6,7 @@ include 'common.php';
 
 $output = array();
 $source = 'EUR';
+$sourcerate = 1;
 $target = 'THB';
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
@@ -17,8 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
   }
 }
 
-$source_image = 'fan-white.png';
-$target_image = 'fan-white-inactive.png';
+$url = "https://api.frankfurter.dev/v1/latest?base=${source}";
+$get_json = callAPI('GET', $url, false);
+$get_data = json_decode($get_json, true);
+$targetrate = $get_data["rates"][$target];
+$date = $get_data["date"];
 
 $xw = xmlwriter_open_memory();
 xmlwriter_set_indent($xw, 4);
@@ -41,7 +45,7 @@ xmlwriter_start_element($xw, 'tile');
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
         xmlwriter_end_attribute($xw);
-        xmlwriter_text($xw, $source);
+        xmlwriter_text($xw, "${sourcerate} ${source}");
       xmlwriter_end_element($xw);
 
 	  xmlwriter_start_element($xw, 'text');
@@ -51,7 +55,7 @@ xmlwriter_start_element($xw, 'tile');
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
         xmlwriter_end_attribute($xw);
-        xmlwriter_text($xw, $target);
+        xmlwriter_text($xw, "${targetrate} ${target}");
       xmlwriter_end_element($xw);
 
 	  xmlwriter_start_element($xw, 'text');
@@ -61,7 +65,7 @@ xmlwriter_start_element($xw, 'tile');
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
         xmlwriter_end_attribute($xw);
-        xmlwriter_text($xw, "19.01.2025");
+        xmlwriter_text($xw, "${date}");
       xmlwriter_end_element($xw);
       
     xmlwriter_end_element($xw); // TileMedium
@@ -78,7 +82,7 @@ xmlwriter_start_element($xw, 'tile');
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
         xmlwriter_end_attribute($xw);
-        xmlwriter_text($xw, $source);
+        xmlwriter_text($xw, "${sourcerate} ${source}");
       xmlwriter_end_element($xw);
 
 	  xmlwriter_start_element($xw, 'text');
@@ -88,7 +92,7 @@ xmlwriter_start_element($xw, 'tile');
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
         xmlwriter_end_attribute($xw);
-        xmlwriter_text($xw, $target);
+        xmlwriter_text($xw, "${targetrate} ${target}");
       xmlwriter_end_element($xw);
 
 	  xmlwriter_start_element($xw, 'text');
@@ -98,7 +102,7 @@ xmlwriter_start_element($xw, 'tile');
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
         xmlwriter_end_attribute($xw);
-        xmlwriter_text($xw, "19.01.2025");
+        xmlwriter_text($xw, "${date}");
       xmlwriter_end_element($xw);
       
     xmlwriter_end_element($xw); // TileWide
@@ -115,7 +119,7 @@ xmlwriter_start_element($xw, 'tile');
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
         xmlwriter_end_attribute($xw);
-        xmlwriter_text($xw, $source);
+        xmlwriter_text($xw, "${sourcerate} ${source}");
       xmlwriter_end_element($xw);
 
 	  xmlwriter_start_element($xw, 'text');
@@ -125,7 +129,7 @@ xmlwriter_start_element($xw, 'tile');
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
         xmlwriter_end_attribute($xw);
-        xmlwriter_text($xw, $target);
+        xmlwriter_text($xw, "${targetrate} ${target}");
       xmlwriter_end_element($xw);
 
 	  xmlwriter_start_element($xw, 'text');
@@ -135,7 +139,7 @@ xmlwriter_start_element($xw, 'tile');
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
         xmlwriter_end_attribute($xw);
-        xmlwriter_text($xw, "19.01.2025");
+        xmlwriter_text($xw, "${date}");
       xmlwriter_end_element($xw);
       
     xmlwriter_end_element($xw); // TileLarge
