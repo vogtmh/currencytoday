@@ -23,6 +23,8 @@ var bases = [];
 var labels = [];
 var datapoints = [];
 
+var isWindows = true;
+
 const daysAgo = n => {
     let d = new Date();
     d.setDate(d.getDate() - Math.abs(n));
@@ -307,6 +309,26 @@ function showOnlinestate(state) {
     }
 }
 
+function updateTileUrl() {
+    let tileUrl = "https://int.mavodev.de/currencytoday/rest/tile?";
+    tileUrl += "source=" + selectedBase + "&"
+    tileUrl += "target=" + selectedCurrency;
+    updateTile(tileUrl);
+}
+
+function updateTile(imageUri) {
+    if (isWindows == "true") {
+        const tileXml = new Windows.Data.Xml.Dom.XmlDocument();
+        tileXml.loadXml(tileTemplateXml.replace("{imageUri}", imageUri));
+
+        const tileNotification = new Windows.UI.Notifications.TileNotification(tileXml);
+        const tileUpdater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
+
+        //tileUpdater.enableNotificationQueue(true); // optional to enable multiple tiles
+        tileUpdater.update(tileNotification);
+    }
+}
+
 $(document).ready(function () {
     try {
         appVersion = Windows.ApplicationModel.Package.current.id.version;
@@ -315,6 +337,7 @@ $(document).ready(function () {
         currentView.appViewBackButtonVisibility = Windows.UI.Core.AppViewBackButtonVisibility.visible;
     }
     catch (e) {
+        isWindows = false;
         console.log('Windows namespace not available, backbutton listener and versioninfo skipped.')
         appString = '';
     }
@@ -326,4 +349,5 @@ $(document).ready(function () {
 
     loadSettings();
     getStockdata();
+    updateTileUrl();
 });
