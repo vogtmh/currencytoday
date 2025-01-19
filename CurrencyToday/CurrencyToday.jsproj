@@ -141,6 +141,8 @@
     <Content Include="js\jquery-3.7.1.min.js" />
     <Content Include="js\main.js" />
     <Content Include="css\default.css" />
+    <Content Include="rest\tile\common.php" />
+    <Content Include="rest\tile\index.php" />
     <None Include="CurrencyToday_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
