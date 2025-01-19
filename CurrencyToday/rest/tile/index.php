@@ -5,8 +5,19 @@ header ("Content-Type:text/xml");
 include 'common.php';
 
 $output = array();
+$source = 'EUR';
+$target = 'THB';
 
-$devicelist = array('living_room', 'max', 'oat');
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
+  if (isset($_GET['$source'])) {
+    $source = htmlspecialchars($_GET['$source'], ENT_QUOTES);
+  }
+  if (isset($_GET['$target'])) {
+    $target = htmlspecialchars($_GET['$target'], ENT_QUOTES);
+  }
+}
+
+$devicelist = array($source, $target, 'oat');
 
 foreach ($devicelist as $device) {
     $output['devices']["$device"]['state'] = 'heat';
