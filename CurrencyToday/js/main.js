@@ -310,6 +310,23 @@ function showOnlinestate(state) {
     }
 }
 
+function registerBackgroundTask() {
+    // Check if background tasks are supported on this device
+    if (Windows.ApplicationModel.Background.BackgroundTaskRegistration.isSupported()) {
+        const taskBuilder = new Windows.ApplicationModel.Background.BackgroundTaskBuilder();
+
+        // Define task entry point and trigger
+        taskBuilder.name = "TileUpdateBackgroundTask";
+        taskBuilder.taskEntryPoint = "app.updateTileUrl";  // Replace with your background task entry point
+        taskBuilder.setTrigger(new Windows.ApplicationModel.Background.TimeTrigger(15, false));  // Trigger every 15 minutes
+
+        const task = taskBuilder.register();
+        console.log("Background task registered successfully.");
+    } else {
+        console.log("Background tasks are not supported on this device.");
+    }
+}
+
 function updateTileWithDynamicXml(xmlSource) {
     const tileXml = new Windows.Data.Xml.Dom.XmlDocument();
     tileXml.loadXml(xmlSource);
@@ -347,7 +364,7 @@ function updateTileUrl() {
         tileUrl += "source=" + selectedBase + "&"
         tileUrl += "target=" + selectedCurrency;
         console.log("new tileUrl: " + tileUrl);
-        scheduleTileUpdate(tileUrl);
+        //scheduleTileUpdate(tileUrl);
         fetchXml(tileUrl);
     }
 }
