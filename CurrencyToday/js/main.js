@@ -310,23 +310,6 @@ function showOnlinestate(state) {
     }
 }
 
-function registerBackgroundTask() {
-    // Check if background tasks are supported on this device
-    if (Windows.ApplicationModel.Background.BackgroundTaskRegistration.isSupported()) {
-        const taskBuilder = new Windows.ApplicationModel.Background.BackgroundTaskBuilder();
-
-        // Define task entry point and trigger
-        taskBuilder.name = "TileUpdateBackgroundTask";
-        taskBuilder.taskEntryPoint = "app.updateTileUrl";  // Replace with your background task entry point
-        taskBuilder.setTrigger(new Windows.ApplicationModel.Background.TimeTrigger(15, false));  // Trigger every 15 minutes
-
-        const task = taskBuilder.register();
-        console.log("Background task registered successfully.");
-    } else {
-        console.log("Background tasks are not supported on this device.");
-    }
-}
-
 function updateTileWithDynamicXml(xmlSource) {
     const tileXml = new Windows.Data.Xml.Dom.XmlDocument();
     tileXml.loadXml(xmlSource);
@@ -338,66 +321,31 @@ function updateTileWithDynamicXml(xmlSource) {
     tileUpdater.update(tileNotification);
 }
 
-function scheduleTileUpdate(newUrl) {
-    try {
-        const tileUpdater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
-
-        const futureTime = new Date(Date.now() + 60000); // Default to 1 minute from now
-        const schedule = new Windows.UI.Notifications.ScheduledTileNotification(
-            new Windows.Foundation.Uri(newUrl),
-            futureTime
-        );
-
-        // Optionally, set an expiration time
-        schedule.expirationTime = new Date(futureTime.getTime() + 900000); // 15 minutes
-
-        tileUpdater.addToSchedule(schedule);
-    }
-    catch (e) {
-        console.log(e.message);
-    }
-}
-
 function updateTileUrl() {
     if (isWindows == true) {
-        let tileUrl = "https://int.mavodev.de/currencytoday/rest/tile?";
-        tileUrl += "source=" + selectedBase + "&"
-        tileUrl += "target=" + selectedCurrency;
-        console.log("new tileUrl: " + tileUrl);
-        //scheduleTileUpdate(tileUrl);
-        fetchXml(tileUrl);
-    }
-}
-
-function fetchXml(url) {
-    const httpClient = new Windows.Web.Http.HttpClient();
-    httpClient.getStringAsync(new Windows.Foundation.Uri(url)).done(
-        function (xmlString) {
-            updateTileWithDynamicXml(xmlString);
-
-            const newXml = `
+        const newXml = `
             <tile>
                 <visual>
                     <binding template="TileMedium">
-                        <text hint-style="body" hint-wrap="true">1 EUR</text>
-                        <text hint-style="body" hint-wrap="true">35.492 THB</text>
-                        <text hint-style="caption" hint-wrap="true">19.01.2025</text>
+                        <text hint-style="body" hint-wrap="true">` + sourceCache + ` ` + selectedBase + `</text>
+                        <text hint-style="body" hint-wrap="true">` + targetCache + ` ` + selectedCurrency + `</text>
+                        <text hint-style="caption" hint-wrap="true">` + timestampCache + `</text>
                     </binding>
                     <binding template="TileWide">
-                        <text hint-style="body" hint-wrap="true">1 EUR</text>
-                        <text hint-style="body" hint-wrap="true">35.492 THB</text>
-                        <text hint-style="caption" hint-wrap="true">19.01.2025</text>
+                        <text hint-style="body" hint-wrap="true">` + sourceCache + ` ` + selectedBase + `</text>
+                        <text hint-style="body" hint-wrap="true">` + targetCache + ` ` + selectedCurrency + `</text>
+                        <text hint-style="caption" hint-wrap="true">` + timestampCache + `</text>
+                    </binding>
+                    <binding template="TileLarge">
+                        <text hint-style="body" hint-wrap="true">` + sourceCache + ` ` + selectedBase + `</text>
+                        <text hint-style="body" hint-wrap="true">` + targetCache + ` ` + selectedCurrency + `</text>
+                        <text hint-style="caption" hint-wrap="true">` + timestampCache + `</text>
                     </binding>
                 </visual>
             </tile>
-            `
-
-            //updateTileWithDynamicXml(newXml);
-        },
-        function (error) {
-            console.log("Failed to fetch XML: " + error);
-        }
-    );
+        `;
+        updateTileWithDynamicXml(newXml);
+    }
 }
 
 $(document).ready(function () {
