@@ -46,7 +46,7 @@ xmlwriter_start_element($xw, 'tile');
 
       xmlwriter_start_element($xw, 'text');
 		xmlwriter_start_attribute($xw, 'hint-weight');
-		  xmlwriter_text($xw, "body");
+		  xmlwriter_text($xw, "title");
         xmlwriter_end_attribute($xw);
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
@@ -56,7 +56,7 @@ xmlwriter_start_element($xw, 'tile');
 
 	  xmlwriter_start_element($xw, 'text');
 		xmlwriter_start_attribute($xw, 'hint-weight');
-		  xmlwriter_text($xw, "body");
+		  xmlwriter_text($xw, "subtitle");
         xmlwriter_end_attribute($xw);
 		xmlwriter_start_attribute($xw, 'hint-wrap');
 		  xmlwriter_text($xw, "true");
