@@ -219,6 +219,8 @@ function getStockdata() {
                     localStorage.targetCache = rate;
                     timestampCache = metadate;
                     localStorage.timestampCache = metadate;
+
+                    updateTileUrl();
                 }
                 catch (e) {
                     let message = e.message;
@@ -238,7 +240,6 @@ function getStockdata() {
             $("#reloadbutton").html('<img src="images/reload0.png" />');
         },
     });
-    updateTileUrl();
 }
 
 function showCurrencyselection(mode) {

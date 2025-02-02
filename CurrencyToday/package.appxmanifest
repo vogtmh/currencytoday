@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="455f737d-16f0-4cd5-8bb6-b0e30fa20f57" Version="2025.1.41.0" Publisher="CN=mavo" />
+  <Identity Name="455f737d-16f0-4cd5-8bb6-b0e30fa20f57" Version="2025.2.42.0" Publisher="CN=mavo" />
   <mp:PhoneIdentity PhoneProductId="455f737d-16f0-4cd5-8bb6-b0e30fa20f57" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>CurrencyToday</DisplayName>
